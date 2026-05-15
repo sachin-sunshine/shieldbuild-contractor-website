@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShieldBuild Infrastructure – Government Contractors</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; color: #2d3748; }
+
+    nav {
+      background: #1a3a1a;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 60px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; color: #68d391; }
+    .logo span { color: #fff; }
+    nav ul { list-style: none; display: flex; gap: 30px; }
+    nav ul a { text-decoration: none; color: #c6f6d5; font-weight: 500; transition: color .2s; }
+    nav ul a:hover { color: #68d391; }
+    .btn-nav { background: #276749; color: #fff !important; padding: 10px 22px; border-radius: 6px; font-weight: 700; border: 2px solid #68d391; }
+    .btn-nav:hover { background: #68d391 !important; color: #1a3a1a !important; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #1a3a1a 0%, #276749 50%, #2f855a 100%);
+      padding: 90px 60px;
+      display: flex; align-items: center; justify-content: space-between; gap: 40px;
+      color: #fff;
+    }
+    .hero-text h1 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 18px; }
+    .hero-text h1 span { color: #68d391; }
+    .hero-text p { color: #c6f6d5; line-height: 1.8; max-width: 500px; margin-bottom: 32px; font-size: 1.05rem; }
+    .hero-badges { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 32px; }
+    .hbadge { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.3); border-radius: 8px; padding: 10px 18px; font-size: .9rem; }
+    .btn { display: inline-block; background: #68d391; color: #1a3a1a; padding: 14px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; transition: background .2s; margin-right: 12px; }
+    .btn:hover { background: #48bb78; }
+    .btn-outline { background: transparent; border: 2px solid #68d391; color: #68d391; }
+    .btn-outline:hover { background: #68d391; color: #1a3a1a; }
+    .hero-icon { font-size: 10rem; flex-shrink: 0; }
+
+    /* MARQUEE */
+    .marquee-wrap { background: #276749; padding: 14px 0; overflow: hidden; white-space: nowrap; }
+    .marquee-inner { display: inline-block; animation: scroll 22s linear infinite; }
+    .marquee-inner span { color: #c6f6d5; margin: 0 40px; font-size: .95rem; font-weight: 600; }
+    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* STATS */
+    .stats { display: grid; grid-template-columns: repeat(4,1fr); background: #f0fff4; }
+    .stat { text-align: center; padding: 40px 20px; border-right: 1px solid #c6f6d5; }
+    .stat:last-child { border-right: none; }
+    .stat h2 { font-size: 2.4rem; font-weight: 800; color: #276749; }
+    .stat p { color: #4a5568; font-size: .9rem; margin-top: 6px; }
+
+    /* SERVICES */
+    .section { padding: 80px 60px; }
+    .section-title { font-size: 2rem; color: #1a3a1a; margin-bottom: 8px; }
+    .section-sub { color: #718096; margin-bottom: 50px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px; }
+    .card { background: #fff; border-radius: 12px; padding: 36px 28px; box-shadow: 0 4px 20px rgba(0,0,0,.07); border-top: 4px solid #276749; transition: transform .2s; }
+    .card:hover { transform: translateY(-6px); }
+    .card-icon { font-size: 2.8rem; margin-bottom: 16px; }
+    .card h3 { color: #1a3a1a; margin-bottom: 10px; font-size: 1.1rem; }
+    .card p { color: #718096; font-size: .9rem; line-height: 1.6; }
+
+    /* PROJECTS */
+    .projects { background: #f0fff4; padding: 80px 60px; }
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+    .pcard { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+    .pcard-top { background: linear-gradient(135deg, #276749, #48bb78); padding: 36px; text-align: center; font-size: 4rem; }
+    .pcard-body { padding: 24px; }
+    .pcard-body h3 { color: #1a3a1a; font-size: 1.1rem; margin-bottom: 8px; }
+    .pcard-body .ministry { color: #276749; font-size: .85rem; font-weight: 700; margin-bottom: 10px; }
+    .pcard-body p { color: #718096; font-size: .9rem; line-height: 1.6; }
+    .pstatus { display: inline-block; margin-top: 12px; padding: 4px 14px; border-radius: 20px; font-size: .8rem; font-weight: 700; }
+    .completed { background: #c6f6d5; color: #276749; }
+    .ongoing { background: #fefcbf; color: #975a16; }
+
+    /* CERTIFICATIONS */
+    .certs { padding: 80px 60px; text-align: center; }
+    .cert-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 40px; }
+    .cert-badge { background: #f0fff4; border: 2px solid #276749; border-radius: 10px; padding: 20px 32px; font-weight: 700; color: #276749; font-size: 1rem; }
+
+    /* CONTACT */
+    .contact { background: #1a3a1a; color: #fff; padding: 80px 60px; }
+    .contact h2 { font-size: 2rem; margin-bottom: 10px; }
+    .contact > p { color: #c6f6d5; margin-bottom: 50px; }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+    .contact-info h3 { color: #68d391; margin-bottom: 20px; }
+    .info-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; color: #c6f6d5; font-size: .95rem; line-height: 1.6; }
+    .info-icon { font-size: 1.4rem; flex-shrink: 0; }
+    form input, form select, form textarea { width: 100%; padding: 12px 16px; border-radius: 8px; border: none; background: #2d5a2d; color: #fff; font-size: 1rem; margin-bottom: 14px; }
+    form textarea { min-height: 100px; resize: vertical; }
+    form button { background: #68d391; color: #1a3a1a; border: none; padding: 14px 36px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    form button:hover { background: #48bb78; }
+
+    footer { background: #0d1f0d; color: #68d391; text-align: center; padding: 24px 60px; font-size: .9rem; }
+    footer span { color: #c6f6d5; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Shield<span>Build</span></div>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certs">Certifications</a></li>
+    <li><a href="#contact" class="btn-nav">Bid Enquiry</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-text">
+    <h1>Building <span>India's</span><br>Future Infrastructure</h1>
+    <div class="hero-badges">
+      <div class="hbadge">🏛️ MoRTH Empanelled</div>
+      <div class="hbadge">✅ ISO 9001:2015</div>
+      <div class="hbadge">📋 CPWD Registered – Class AA</div>
+    </div>
+    <p>ShieldBuild Infrastructure Pvt. Ltd. is a Tier-1 government contractor specialising in roads, bridges, public buildings, and defence infrastructure across India.</p>
+    <a href="#contact" class="btn">Request a Bid</a>
+    <a href="#projects" class="btn btn-outline">View Projects</a>
+  </div>
+  <div class="hero-icon">🏗️</div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span>🏛️ CPWD Class AA Contractor</span>
+    <span>🛣️ NHAI Empanelled</span>
+    <span>🏥 AIIMS Project Delivered</span>
+    <span>🌉 200+ Bridges Constructed</span>
+    <span>⭐ ISO 9001:2015 Certified</span>
+    <span>🔒 Defence Ministry Partner</span>
+    <span>🏛️ CPWD Class AA Contractor</span>
+    <span>🛣️ NHAI Empanelled</span>
+    <span>🏥 AIIMS Project Delivered</span>
+    <span>🌉 200+ Bridges Constructed</span>
+    <span>⭐ ISO 9001:2015 Certified</span>
+    <span>🔒 Defence Ministry Partner</span>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><h2>₹4,200 Cr</h2><p>Projects Completed</p></div>
+  <div class="stat"><h2>28</h2><p>Years of Excellence</p></div>
+  <div class="stat"><h2>340+</h2><p>Government Contracts</p></div>
+  <div class="stat"><h2>18</h2><p>States Operational</p></div>
+</div>
+
+<section class="section" id="services">
+  <h2 class="section-title">Core Competencies</h2>
+  <p class="section-sub">Specialised services for government infrastructure requirements</p>
+  <div class="cards">
+    <div class="card"><div class="card-icon">🛣️</div><h3>Roads & Highways</h3><p>4-lane and 6-lane national highways, expressways, and state road projects under NHAI and MoRTH.</p></div>
+    <div class="card"><div class="card-icon">🌉</div><h3>Bridges & Flyovers</h3><p>RCC, prestressed, and steel bridges — including railway overbridges and river crossings.</p></div>
+    <div class="card"><div class="card-icon">🏛️</div><h3>Public Buildings</h3><p>Hospitals, courts, government offices, educational institutions under CPWD and state PWDs.</p></div>
+    <div class="card"><div class="card-icon">💧</div><h3>Water Infrastructure</h3><p>Dams, irrigation canals, water treatment plants, and sewage systems for Jal Jeevan Mission.</p></div>
+    <div class="card"><div class="card-icon">⚡</div><h3>Power & Utilities</h3><p>Substations, transmission lines, and renewable energy grid infrastructure.</p></div>
+    <div class="card"><div class="card-icon">🛡️</div><h3>Defence Construction</h3><p>Strategic infrastructure, cantonments, and border road development under BRO contracts.</p></div>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <h2 class="section-title">Landmark Projects</h2>
+  <p class="section-sub">A proven track record of on-time, quality delivery</p>
+  <div class="proj-grid">
+    <div class="pcard">
+      <div class="pcard-top">🛣️</div>
+      <div class="pcard-body">
+        <div class="ministry">Ministry of Road Transport & Highways</div>
+        <h3>NH-48 6-Lane Widening – Gurugram to Jaipur</h3>
+        <p>220 km highway upgrade with 12 flyovers, 3 tunnels, and smart traffic management. Project value: ₹2,800 Cr.</p>
+        <span class="pstatus completed">✅ Completed</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-top">🏥</div>
+      <div class="pcard-body">
+        <div class="ministry">Ministry of Health & Family Welfare</div>
+        <h3>AIIMS Jammu – Full Campus Construction</h3>
+        <p>750-bed teaching hospital including OPD, ICU, research labs, and residential quarters. Value: ₹680 Cr.</p>
+        <span class="pstatus completed">✅ Completed</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-top">🌉</div>
+      <div class="pcard-body">
+        <div class="ministry">Ministry of Railways</div>
+        <h3>Chenab River Rail Bridge – J&K</h3>
+        <p>High-altitude railway bridge (world's highest) approach viaducts and connecting tunnels. Value: ₹320 Cr.</p>
+        <span class="pstatus ongoing">🔄 Ongoing</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-top">💧</div>
+      <div class="pcard-body">
+        <div class="ministry">Ministry of Jal Shakti</div>
+        <h3>Ken-Betwa River Link Project</h3>
+        <p>Irrigation canal network spanning 3 districts of MP. 14 lift irrigation stations. Value: ₹510 Cr.</p>
+        <span class="pstatus ongoing">🔄 Ongoing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="certs" id="certs">
+  <h2 class="section-title">Certifications & Registrations</h2>
+  <p class="section-sub">Fully compliant and empanelled with central and state government bodies</p>
+  <div class="cert-grid">
+    <div class="cert-badge">🏛️ CPWD – Class AA</div>
+    <div class="cert-badge">🛣️ NHAI Empanelled</div>
+    <div class="cert-badge">✅ ISO 9001:2015</div>
+    <div class="cert-badge">⚙️ ISO 14001:2015</div>
+    <div class="cert-badge">🔒 ISO 45001:2018</div>
+    <div class="cert-badge">🏗️ MoRTH Registered</div>
+    <div class="cert-badge">🛡️ MoD – Defence Contractor</div>
+    <div class="cert-badge">💧 Jal Jeevan Mission Partner</div>
+    <div class="cert-badge">🌿 GEM Portal Registered</div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <h2>Bid Enquiry & Contact</h2>
+  <p>For tender enquiries, project bids, and joint venture proposals</p>
+  <div class="contact-layout">
+    <div class="contact-info">
+      <h3>Corporate Office</h3>
+      <div class="info-row"><span class="info-icon">📍</span><span>ShieldBuild House, Plot 7, Sector 125, Noida – 201301, Uttar Pradesh</span></div>
+      <div class="info-row"><span class="info-icon">📞</span><span>+91 120 456 7890<br>+91 98700 12345 (Tender Cell)</span></div>
+      <div class="info-row"><span class="info-icon">✉️</span><span>tenders@shieldbuild.in<br>info@shieldbuild.in</span></div>
+      <div class="info-row"><span class="info-icon">🌐</span><span>CIN: U45200UP1998PTC024156<br>GST: 09AABCS1234F1Z5</span></div>
+      <div class="info-row"><span class="info-icon">⏰</span><span>Mon–Fri: 9 AM – 6 PM<br>Tender submissions accepted 24/7 via email</span></div>
+    </div>
+    <div>
+      <form onsubmit="event.preventDefault(); alert('Enquiry received! Our tender team will respond within 48 hours.')">
+        <input type="text" placeholder="Company / Organisation Name" required />
+        <input type="text" placeholder="Contact Person & Designation" required />
+        <input type="email" placeholder="Official Email Address" required />
+        <input type="tel" placeholder="Phone Number" required />
+        <select>
+          <option>Nature of Enquiry</option>
+          <option>Tender / Bid Submission</option>
+          <option>Joint Venture Proposal</option>
+          <option>Subcontractor Empanelment</option>
+          <option>General Enquiry</option>
+        </select>
+        <textarea placeholder="Project details, scope, estimated value, deadline…"></textarea>
+        <button type="submit">Submit Enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 <span>ShieldBuild Infrastructure Pvt. Ltd.</span> | CIN: U45200UP1998PTC024156 | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
